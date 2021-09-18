@@ -1,0 +1,19 @@
+/*全局样式表*/
+
+html,
+#app {
+    height: 100%;
+    outline: 0;
+    padding: 0;
+    margin: 0;
+    border: 0;
+    min-width: 1366px;
+}
+
+button:hover {
+    color: #900b09;
+}
+
+button:active {
+    background-color: gray;
+}
