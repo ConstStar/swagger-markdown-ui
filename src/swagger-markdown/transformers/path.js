@@ -39,7 +39,7 @@ module.exports = (path, data, parameters, tags, responsesPublic) => {
 
                 // Set description
                 if ('description' in pathInfo) {
-                    tags[pathInfo.tags].push(`##### 描述:\n\n${pathInfo.description}\n`);
+                    tags[pathInfo.tags].push(`##### 描述\n\n${pathInfo.description}\n`);
                 }
 
                 // Build parameters
