@@ -4,12 +4,12 @@
     <p>
       来自于
       <a
-        href="https://github.com/syroegkin/swagger-markdown"
+        href="https://github.com/constStar/swagger-markdown-ui"
         target="_blank"
         rel="noopener"
-        >swagger-markdown</a
+        >强化版 swagger-markdown-ui</a
       >
-      - swagger yaml 转化为 markdown.
+      - swagger-v3 yaml 转化为 markdown.
     </p>
     <div style="display: flex;justify-content: center;">
       <div style=" width: 50%;margin: 10px">
