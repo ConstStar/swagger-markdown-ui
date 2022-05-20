@@ -71,11 +71,11 @@ module.exports.processDefinition = processDefinition;
 module.exports = definitions => {
     const res = [];
 
-    if ('schemas' in definitions) {
-        Object.keys(definitions.schemas).map(definitionName => {
-            res.push(processDefinition(definitionName, definitions.schemas[definitionName]))
-        });
-    }
+    Object.keys(definitions).map(definitionName => {
+        console.log(definitionName);
+        res.push(processDefinition(definitionName, definitions[definitionName]))
+    });
+
 
     if (res.length > 0) {
         res.unshift('## 返回类型\n');

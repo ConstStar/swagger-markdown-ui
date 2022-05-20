@@ -9,8 +9,9 @@
   },
   "dependencies": {
     "core-js": "^3.6.4",
-    "vue": "^2.6.11",
-    "js-yaml": "^3.13.1"
+    "jquery": "^3.6.0",
+    "js-yaml": "^3.13.1",
+    "vue": "^2.6.11"
   },
   "devDependencies": {
     "@vue/cli-plugin-babel": "^4.2.0",

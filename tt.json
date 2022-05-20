@@ -1,0 +1,1670 @@
+{
+    "swagger": "2.0",
+    "info": {
+        "description": "校园表白墙",
+        "version": "v2.0",
+        "title": "星愿",
+        "termsOfService": "http://wall.conststar.cn",
+        "contact": {
+            "name": "赵国庆",
+            "url": "http://blog.conststar.cn",
+            "email": "admin@conststar.cn"
+        },
+        "license": {
+            "name": "MIT License",
+            "url": "https://spdx.org/licenses/MIT.html"
+        }
+    },
+    "host": "localhost:8089",
+    "basePath": "/",
+    "tags": [{
+            "name": "帖子内容",
+            "description": "Table Controller"
+        },
+        {
+            "name": "文件操作",
+            "description": "File Controller"
+        },
+        {
+            "name": "评论内容",
+            "description": "Comment Controller"
+        },
+        {
+            "name": "账号操作",
+            "description": "User Controller"
+        }
+    ],
+    "paths": {
+        "/api/comment/add": {
+            "post": {
+                "tags": [
+                    "评论内容"
+                ],
+                "summary": "发布评论",
+                "description": "发布评论，不返回内容",
+                "operationId": "postUsingPOST",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json;charset=UTF-8"
+                ],
+                "parameters": [{
+                        "name": "content",
+                        "in": "query",
+                        "description": "内容",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "images",
+                        "in": "query",
+                        "description": "图片列表",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "tableId",
+                        "in": "query",
+                        "description": "帖子id",
+                        "required": true,
+                        "type": "integer",
+                        "format": "int32"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/统一响应实体«object»"
+                        }
+                    },
+                    "201": {
+                        "description": "Created"
+                    },
+                    "401": {
+                        "description": "Unauthorized"
+                    },
+                    "403": {
+                        "description": "Forbidden"
+                    },
+                    "404": {
+                        "description": "Not Found"
+                    }
+                }
+            }
+        },
+        "/api/comment/count": {
+            "get": {
+                "tags": [
+                    "评论内容"
+                ],
+                "summary": "获取帖子评论总数",
+                "description": "获取帖子评论总数，返回评论总数，用来计算页数",
+                "operationId": "getCountUsingGET",
+                "produces": [
+                    "application/json;charset=UTF-8"
+                ],
+                "parameters": [{
+                    "name": "tableId",
+                    "in": "query",
+                    "description": "帖子id",
+                    "required": true,
+                    "type": "integer",
+                    "format": "int32"
+                }],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/统一响应实体«int»"
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized"
+                    },
+                    "403": {
+                        "description": "Forbidden"
+                    },
+                    "404": {
+                        "description": "Not Found"
+                    }
+                }
+            }
+        },
+        "/api/comment/pageList": {
+            "get": {
+                "tags": [
+                    "评论内容"
+                ],
+                "summary": "获取帖子分页评论列表",
+                "description": "获取帖子分页评论列表，返回评论列表",
+                "operationId": "getPageListUsingGET",
+                "produces": [
+                    "application/json;charset=UTF-8"
+                ],
+                "parameters": [{
+                        "name": "pageIndex",
+                        "in": "query",
+                        "description": "页索引",
+                        "required": true,
+                        "type": "integer",
+                        "format": "int32"
+                    },
+                    {
+                        "name": "pageSize",
+                        "in": "query",
+                        "description": "页大小",
+                        "required": true,
+                        "type": "integer",
+                        "format": "int32"
+                    },
+                    {
+                        "name": "tableId",
+                        "in": "query",
+                        "description": "帖子id",
+                        "required": true,
+                        "type": "integer",
+                        "format": "int32"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/统一响应实体«List«评论信息»»"
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized"
+                    },
+                    "403": {
+                        "description": "Forbidden"
+                    },
+                    "404": {
+                        "description": "Not Found"
+                    }
+                }
+            }
+        },
+        "/api/file/image": {
+            "post": {
+                "tags": [
+                    "文件操作"
+                ],
+                "summary": "上传图片",
+                "description": "上传图片，返回上传的图片名",
+                "operationId": "uploadImageUsingPOST",
+                "consumes": [
+                    "multipart/form-data"
+                ],
+                "produces": [
+                    "application/json;charset=UTF-8"
+                ],
+                "parameters": [{
+                        "in": "body",
+                        "name": "file",
+                        "description": "文件",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "format": "binary"
+                        }
+                    },
+                    {
+                        "name": "token",
+                        "in": "header",
+                        "description": "token",
+                        "required": false,
+                        "type": "string"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/统一响应实体«string»"
+                        }
+                    },
+                    "201": {
+                        "description": "Created"
+                    },
+                    "401": {
+                        "description": "Unauthorized"
+                    },
+                    "403": {
+                        "description": "Forbidden"
+                    },
+                    "404": {
+                        "description": "Not Found"
+                    }
+                }
+            }
+        },
+        "/api/file/image/{image}": {
+            "get": {
+                "tags": [
+                    "文件操作"
+                ],
+                "summary": "获取图片",
+                "description": "获取图片，返回图片文件",
+                "operationId": "getTableImageUsingGET",
+                "produces": [
+                    "*/*"
+                ],
+                "parameters": [{
+                    "name": "image",
+                    "in": "path",
+                    "description": "图片文件名",
+                    "required": true,
+                    "type": "string"
+                }],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized"
+                    },
+                    "403": {
+                        "description": "Forbidden"
+                    },
+                    "404": {
+                        "description": "Not Found"
+                    }
+                }
+            }
+        },
+        "/api/table/add": {
+            "post": {
+                "tags": [
+                    "帖子内容"
+                ],
+                "summary": "发布表白",
+                "description": "发布表白，不返回内容",
+                "operationId": "addUsingPOST",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json;charset=UTF-8"
+                ],
+                "parameters": [{
+                        "name": "anonymous",
+                        "in": "query",
+                        "description": "是否匿名",
+                        "required": true,
+                        "type": "boolean"
+                    },
+                    {
+                        "name": "content",
+                        "in": "query",
+                        "description": "表白内容",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "images",
+                        "in": "query",
+                        "description": "图片列表",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "notifyEmail",
+                        "in": "query",
+                        "description": "是否邮箱通知",
+                        "required": true,
+                        "type": "boolean"
+                    },
+                    {
+                        "name": "recipient",
+                        "in": "query",
+                        "description": "被表白者名称",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "recipientSex",
+                        "in": "query",
+                        "description": "被表白者性别",
+                        "required": true,
+                        "type": "integer",
+                        "format": "int32"
+                    },
+                    {
+                        "name": "sender",
+                        "in": "query",
+                        "description": "表白者名称",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "senderSex",
+                        "in": "query",
+                        "description": "表白者性别",
+                        "required": true,
+                        "type": "integer",
+                        "format": "int32"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/统一响应实体«object»"
+                        }
+                    },
+                    "201": {
+                        "description": "Created"
+                    },
+                    "401": {
+                        "description": "Unauthorized"
+                    },
+                    "403": {
+                        "description": "Forbidden"
+                    },
+                    "404": {
+                        "description": "Not Found"
+                    }
+                }
+            }
+        },
+        "/api/table/count": {
+            "get": {
+                "tags": [
+                    "帖子内容"
+                ],
+                "summary": "获取帖子的数量",
+                "description": "获取帖子总数，返回帖子总数，用来计算页数",
+                "operationId": "getCountUsingGET_1",
+                "produces": [
+                    "application/json;charset=UTF-8"
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/统一响应实体«int»"
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized"
+                    },
+                    "403": {
+                        "description": "Forbidden"
+                    },
+                    "404": {
+                        "description": "Not Found"
+                    }
+                }
+            }
+        },
+        "/api/table/pageList": {
+            "get": {
+                "tags": [
+                    "帖子内容"
+                ],
+                "summary": "获取帖子分页列表",
+                "description": "获取帖子分页列表，返回帖子列表",
+                "operationId": "getPageListUsingGET_1",
+                "produces": [
+                    "application/json;charset=UTF-8"
+                ],
+                "parameters": [{
+                        "name": "pageIndex",
+                        "in": "query",
+                        "description": "页索引",
+                        "required": true,
+                        "type": "integer",
+                        "format": "int32"
+                    },
+                    {
+                        "name": "pageSize",
+                        "in": "query",
+                        "description": "页大小",
+                        "required": true,
+                        "type": "integer",
+                        "format": "int32"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/统一响应实体«List«帖子信息»»"
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized"
+                    },
+                    "403": {
+                        "description": "Forbidden"
+                    },
+                    "404": {
+                        "description": "Not Found"
+                    }
+                }
+            }
+        },
+        "/api/table/searchCount": {
+            "get": {
+                "tags": [
+                    "帖子内容"
+                ],
+                "summary": "获取搜索帖子的数量",
+                "description": "获取搜索帖子总数，返回帖子数量",
+                "operationId": "getCountUsingGET_2",
+                "produces": [
+                    "application/json;charset=UTF-8"
+                ],
+                "parameters": [{
+                    "name": "keyword",
+                    "in": "query",
+                    "description": "关键词",
+                    "required": true,
+                    "type": "string"
+                }],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/统一响应实体«int»"
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized"
+                    },
+                    "403": {
+                        "description": "Forbidden"
+                    },
+                    "404": {
+                        "description": "Not Found"
+                    }
+                }
+            }
+        },
+        "/api/table/searchList": {
+            "get": {
+                "tags": [
+                    "帖子内容"
+                ],
+                "summary": "搜索帖子",
+                "description": "搜索帖子，返回帖子列表",
+                "operationId": "getSearchTablesUsingGET",
+                "produces": [
+                    "application/json;charset=UTF-8"
+                ],
+                "parameters": [{
+                        "name": "keyword",
+                        "in": "query",
+                        "description": "关键词",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "pageIndex",
+                        "in": "query",
+                        "description": "页索引",
+                        "required": true,
+                        "type": "integer",
+                        "format": "int32"
+                    },
+                    {
+                        "name": "pageSize",
+                        "in": "query",
+                        "description": "页大小",
+                        "required": true,
+                        "type": "integer",
+                        "format": "int32"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/统一响应实体«List«帖子信息»»"
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized"
+                    },
+                    "403": {
+                        "description": "Forbidden"
+                    },
+                    "404": {
+                        "description": "Not Found"
+                    }
+                }
+            }
+        },
+        "/api/table/support": {
+            "put": {
+                "tags": [
+                    "帖子内容"
+                ],
+                "summary": "点赞",
+                "description": "点赞，不返回内容",
+                "operationId": "putSupportUsingPUT",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json;charset=UTF-8"
+                ],
+                "parameters": [{
+                    "name": "tableId",
+                    "in": "query",
+                    "description": "帖子id",
+                    "required": true,
+                    "type": "integer",
+                    "format": "int32"
+                }],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/统一响应实体«object»"
+                        }
+                    },
+                    "201": {
+                        "description": "Created"
+                    },
+                    "401": {
+                        "description": "Unauthorized"
+                    },
+                    "403": {
+                        "description": "Forbidden"
+                    },
+                    "404": {
+                        "description": "Not Found"
+                    }
+                }
+            },
+            "delete": {
+                "tags": [
+                    "帖子内容"
+                ],
+                "summary": "取消点赞",
+                "description": "取消点赞，不返回内容",
+                "operationId": "deleteSupportUsingDELETE",
+                "produces": [
+                    "application/json;charset=UTF-8"
+                ],
+                "parameters": [{
+                    "name": "tableId",
+                    "in": "query",
+                    "description": "帖子id",
+                    "required": true,
+                    "type": "integer",
+                    "format": "int32"
+                }],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/统一响应实体«object»"
+                        }
+                    },
+                    "204": {
+                        "description": "No Content"
+                    },
+                    "401": {
+                        "description": "Unauthorized"
+                    },
+                    "403": {
+                        "description": "Forbidden"
+                    }
+                }
+            }
+        },
+        "/api/table/table": {
+            "get": {
+                "tags": [
+                    "帖子内容"
+                ],
+                "summary": "获取单个帖子内容",
+                "description": "获取单个帖子内容，返回单个帖子",
+                "operationId": "getTableUsingGET",
+                "produces": [
+                    "application/json;charset=UTF-8"
+                ],
+                "parameters": [{
+                    "name": "id",
+                    "in": "query",
+                    "description": "帖子id",
+                    "required": true,
+                    "type": "integer",
+                    "format": "int32"
+                }],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/统一响应实体«帖子信息»"
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized"
+                    },
+                    "403": {
+                        "description": "Forbidden"
+                    },
+                    "404": {
+                        "description": "Not Found"
+                    }
+                }
+            }
+        },
+        "/api/user/addByEmail": {
+            "post": {
+                "tags": [
+                    "账号操作"
+                ],
+                "summary": "通过邮箱注册",
+                "description": "通过邮箱注册账号，不返回内容",
+                "operationId": "addUsingPOST_1",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json;charset=UTF-8"
+                ],
+                "parameters": [{
+                        "name": "email",
+                        "in": "query",
+                        "description": "邮箱",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "emailCode",
+                        "in": "query",
+                        "description": "邮箱验证码",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "name",
+                        "in": "query",
+                        "description": "名称",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "password",
+                        "in": "query",
+                        "description": "密码",
+                        "required": true,
+                        "type": "string"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/统一响应实体«object»"
+                        }
+                    },
+                    "201": {
+                        "description": "Created"
+                    },
+                    "401": {
+                        "description": "Unauthorized"
+                    },
+                    "403": {
+                        "description": "Forbidden"
+                    },
+                    "404": {
+                        "description": "Not Found"
+                    }
+                }
+            }
+        },
+        "/api/user/addByWeChat": {
+            "post": {
+                "tags": [
+                    "账号操作"
+                ],
+                "summary": "通过微信注册",
+                "description": "通过微信注册账号，不返回内容",
+                "operationId": "addByWeChatUsingPOST",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json;charset=UTF-8"
+                ],
+                "parameters": [{
+                        "name": "code",
+                        "in": "query",
+                        "description": "临时登录凭证",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "name",
+                        "in": "query",
+                        "description": "名称",
+                        "required": true,
+                        "type": "string"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/统一响应实体«object»"
+                        }
+                    },
+                    "201": {
+                        "description": "Created"
+                    },
+                    "401": {
+                        "description": "Unauthorized"
+                    },
+                    "403": {
+                        "description": "Forbidden"
+                    },
+                    "404": {
+                        "description": "Not Found"
+                    }
+                }
+            }
+        },
+        "/api/user/bindEmail": {
+            "post": {
+                "tags": [
+                    "账号操作"
+                ],
+                "summary": "绑定邮箱",
+                "description": "绑定微信,会覆盖之前绑定的微信，不返回内容",
+                "operationId": "bindEmailUsingPOST",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json;charset=UTF-8"
+                ],
+                "parameters": [{
+                        "name": "email",
+                        "in": "query",
+                        "description": "邮箱",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "emailCode",
+                        "in": "query",
+                        "description": "邮箱验证码",
+                        "required": true,
+                        "type": "string"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/统一响应实体«object»"
+                        }
+                    },
+                    "201": {
+                        "description": "Created"
+                    },
+                    "401": {
+                        "description": "Unauthorized"
+                    },
+                    "403": {
+                        "description": "Forbidden"
+                    },
+                    "404": {
+                        "description": "Not Found"
+                    }
+                }
+            }
+        },
+        "/api/user/bindWeChatByCode": {
+            "post": {
+                "tags": [
+                    "账号操作"
+                ],
+                "summary": "绑定微信",
+                "description": "绑定微信,会覆盖之前绑定的微信，不返回内容",
+                "operationId": "bindWeChatByCodeUsingPOST",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json;charset=UTF-8"
+                ],
+                "parameters": [{
+                    "name": "code",
+                    "in": "query",
+                    "description": "临时登录凭证",
+                    "required": true,
+                    "type": "string"
+                }],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/统一响应实体«object»"
+                        }
+                    },
+                    "201": {
+                        "description": "Created"
+                    },
+                    "401": {
+                        "description": "Unauthorized"
+                    },
+                    "403": {
+                        "description": "Forbidden"
+                    },
+                    "404": {
+                        "description": "Not Found"
+                    }
+                }
+            }
+        },
+        "/api/user/emailCode": {
+            "get": {
+                "tags": [
+                    "账号操作"
+                ],
+                "summary": "获取邮箱验证码",
+                "description": "获取邮箱验证码，不返回内容",
+                "operationId": "getEmailCodeUsingGET",
+                "produces": [
+                    "application/json;charset=UTF-8"
+                ],
+                "parameters": [{
+                        "name": "angle",
+                        "in": "query",
+                        "description": "旋转验证码度数",
+                        "required": true,
+                        "type": "integer",
+                        "format": "int32"
+                    },
+                    {
+                        "name": "email",
+                        "in": "query",
+                        "description": "邮箱",
+                        "required": true,
+                        "type": "string"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/统一响应实体«object»"
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized"
+                    },
+                    "403": {
+                        "description": "Forbidden"
+                    },
+                    "404": {
+                        "description": "Not Found"
+                    }
+                }
+            }
+        },
+        "/api/user/isAddedByWeChat": {
+            "get": {
+                "tags": [
+                    "账号操作"
+                ],
+                "summary": "是否通过微信注册过",
+                "description": "是否通过微信注册过，返回true/false",
+                "operationId": "isAddedByWeChatUsingGET",
+                "produces": [
+                    "application/json;charset=UTF-8"
+                ],
+                "parameters": [{
+                    "name": "code",
+                    "in": "query",
+                    "description": "临时登录凭证",
+                    "required": true,
+                    "type": "string"
+                }],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/统一响应实体«boolean»"
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized"
+                    },
+                    "403": {
+                        "description": "Forbidden"
+                    },
+                    "404": {
+                        "description": "Not Found"
+                    }
+                }
+            }
+        },
+        "/api/user/login": {
+            "post": {
+                "tags": [
+                    "账号操作"
+                ],
+                "summary": "登录",
+                "description": "登录用户，返回用户信息",
+                "operationId": "loginUsingPOST",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json;charset=UTF-8"
+                ],
+                "parameters": [{
+                        "name": "password",
+                        "in": "query",
+                        "description": "密码",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "userStr",
+                        "in": "query",
+                        "description": "用户id或者邮箱",
+                        "required": true,
+                        "type": "string"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/统一响应实体«用户资料»"
+                        }
+                    },
+                    "201": {
+                        "description": "Created"
+                    },
+                    "401": {
+                        "description": "Unauthorized"
+                    },
+                    "403": {
+                        "description": "Forbidden"
+                    },
+                    "404": {
+                        "description": "Not Found"
+                    }
+                }
+            }
+        },
+        "/api/user/loginByWeChat": {
+            "post": {
+                "tags": [
+                    "账号操作"
+                ],
+                "summary": "微信登录",
+                "description": "微信登录，返回用户信息",
+                "operationId": "loginByWeChatUsingPOST",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json;charset=UTF-8"
+                ],
+                "parameters": [{
+                    "name": "code",
+                    "in": "query",
+                    "description": "临时登录凭证",
+                    "required": true,
+                    "type": "string"
+                }],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/统一响应实体«object»"
+                        }
+                    },
+                    "201": {
+                        "description": "Created"
+                    },
+                    "401": {
+                        "description": "Unauthorized"
+                    },
+                    "403": {
+                        "description": "Forbidden"
+                    },
+                    "404": {
+                        "description": "Not Found"
+                    }
+                }
+            }
+        },
+        "/api/user/logout": {
+            "post": {
+                "tags": [
+                    "账号操作"
+                ],
+                "summary": "退出登录",
+                "description": "退出登录，不返回内容",
+                "operationId": "logoutUsingPOST",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json;charset=UTF-8"
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/统一响应实体«object»"
+                        }
+                    },
+                    "201": {
+                        "description": "Created"
+                    },
+                    "401": {
+                        "description": "Unauthorized"
+                    },
+                    "403": {
+                        "description": "Forbidden"
+                    },
+                    "404": {
+                        "description": "Not Found"
+                    }
+                }
+            }
+        },
+        "/api/user/rotateCode": {
+            "get": {
+                "tags": [
+                    "账号操作"
+                ],
+                "summary": "获取旋转验证码",
+                "description": "获取旋转验证码，返回图片base64",
+                "operationId": "getRotateCodeUsingGET",
+                "produces": [
+                    "application/json;charset=UTF-8"
+                ],
+                "parameters": [{
+                    "name": "email",
+                    "in": "query",
+                    "description": "邮箱",
+                    "required": true,
+                    "type": "string"
+                }],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/统一响应实体«string»"
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized"
+                    },
+                    "403": {
+                        "description": "Forbidden"
+                    },
+                    "404": {
+                        "description": "Not Found"
+                    }
+                }
+            }
+        },
+        "/api/user/user": {
+            "get": {
+                "tags": [
+                    "账号操作"
+                ],
+                "summary": "获取登录用户信息",
+                "description": "获取登录用户信息，返回用户公开信息",
+                "operationId": "getUserUsingGET",
+                "produces": [
+                    "application/json;charset=UTF-8"
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/统一响应实体«用户资料»"
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized"
+                    },
+                    "403": {
+                        "description": "Forbidden"
+                    },
+                    "404": {
+                        "description": "Not Found"
+                    }
+                }
+            }
+        },
+        "/api/user/userInfoPublic": {
+            "get": {
+                "tags": [
+                    "账号操作"
+                ],
+                "summary": "获取用户公开信息",
+                "description": "获取用户公开信息，返回用户公开信息",
+                "operationId": "getUserInfoPublicUsingGET",
+                "produces": [
+                    "application/json;charset=UTF-8"
+                ],
+                "parameters": [{
+                    "name": "id",
+                    "in": "query",
+                    "description": "用户id",
+                    "required": true,
+                    "type": "integer",
+                    "format": "int32"
+                }],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/统一响应实体«用户公开资料»"
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized"
+                    },
+                    "403": {
+                        "description": "Forbidden"
+                    },
+                    "404": {
+                        "description": "Not Found"
+                    }
+                }
+            }
+        },
+        "/api/user/userInfoPublicByComment": {
+            "get": {
+                "tags": [
+                    "账号操作"
+                ],
+                "summary": "通过评论获取用户公开信息",
+                "description": "通过评论获取用户公开信息，返回用户公开信息",
+                "operationId": "getUserInfoPublicByCommentUsingGET",
+                "produces": [
+                    "application/json;charset=UTF-8"
+                ],
+                "parameters": [{
+                    "name": "commentId",
+                    "in": "query",
+                    "description": "评论id",
+                    "required": true,
+                    "type": "integer",
+                    "format": "int32"
+                }],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/统一响应实体«用户公开资料»"
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized"
+                    },
+                    "403": {
+                        "description": "Forbidden"
+                    },
+                    "404": {
+                        "description": "Not Found"
+                    }
+                }
+            }
+        },
+        "/api/user/userInfoPublicByTable": {
+            "get": {
+                "tags": [
+                    "账号操作"
+                ],
+                "summary": "通过帖子获取用户公开信息",
+                "description": "通过帖子获取用户公开信息，返回用户公开信息",
+                "operationId": "getUserInfoPublicByTableUsingGET",
+                "produces": [
+                    "application/json;charset=UTF-8"
+                ],
+                "parameters": [{
+                    "name": "tableId",
+                    "in": "query",
+                    "description": "帖子id",
+                    "required": true,
+                    "type": "integer",
+                    "format": "int32"
+                }],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/统一响应实体«用户公开资料»"
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized"
+                    },
+                    "403": {
+                        "description": "Forbidden"
+                    },
+                    "404": {
+                        "description": "Not Found"
+                    }
+                }
+            }
+        }
+    },
+    "definitions": {
+        "帖子信息": {
+            "type": "object",
+            "properties": {
+                "anonymous": {
+                    "type": "boolean",
+                    "description": "是否为匿名"
+                },
+                "commentCount": {
+                    "type": "integer",
+                    "format": "int32",
+                    "description": "评论数量"
+                },
+                "content": {
+                    "type": "string",
+                    "description": "表白内容"
+                },
+                "createTime": {
+                    "type": "string",
+                    "format": "date-time",
+                    "description": "创建时间"
+                },
+                "id": {
+                    "type": "integer",
+                    "format": "int32",
+                    "description": "帖子id"
+                },
+                "images": {
+                    "type": "string",
+                    "description": "图片列表"
+                },
+                "notifyEmail": {
+                    "type": "boolean",
+                    "description": "是否邮箱通知"
+                },
+                "recipient": {
+                    "type": "string",
+                    "description": "被表白者姓名"
+                },
+                "recipientSex": {
+                    "type": "integer",
+                    "format": "int32",
+                    "description": "被表白者性别"
+                },
+                "sender": {
+                    "type": "string",
+                    "description": "表白者姓名"
+                },
+                "senderSex": {
+                    "type": "integer",
+                    "format": "int32",
+                    "description": "表白者性别"
+                },
+                "status": {
+                    "type": "integer",
+                    "format": "int32",
+                    "description": "状态 0为正常 1为待审核 -1为封禁"
+                },
+                "support": {
+                    "type": "boolean",
+                    "description": "是否点过赞"
+                },
+                "supportCount": {
+                    "type": "integer",
+                    "format": "int32",
+                    "description": "点赞数量"
+                },
+                "userPublic": {
+                    "description": "对应的用户公开信息",
+                    "$ref": "#/definitions/用户公开资料"
+                }
+            },
+            "title": "帖子信息"
+        },
+        "用户公开资料": {
+            "type": "object",
+            "properties": {
+                "createTime": {
+                    "type": "string",
+                    "format": "date-time",
+                    "description": "注册时间"
+                },
+                "email": {
+                    "type": "string",
+                    "description": "邮箱"
+                },
+                "id": {
+                    "type": "integer",
+                    "format": "int32",
+                    "description": "账号id"
+                },
+                "lastTime": {
+                    "type": "string",
+                    "format": "date-time",
+                    "description": "最近登录时间"
+                },
+                "name": {
+                    "type": "string",
+                    "description": "名称"
+                },
+                "studentId": {
+                    "type": "string",
+                    "description": "学号"
+                }
+            },
+            "title": "用户公开资料"
+        },
+        "用户资料": {
+            "type": "object",
+            "properties": {
+                "createTime": {
+                    "type": "string",
+                    "format": "date-time",
+                    "description": "注册时间"
+                },
+                "email": {
+                    "type": "string",
+                    "description": "邮箱"
+                },
+                "id": {
+                    "type": "integer",
+                    "format": "int32",
+                    "description": "账号id"
+                },
+                "lastTime": {
+                    "type": "string",
+                    "format": "date-time",
+                    "description": "最近登录时间"
+                },
+                "name": {
+                    "type": "string",
+                    "description": "名称"
+                },
+                "status": {
+                    "type": "integer",
+                    "format": "int32",
+                    "description": "状态 0为正常 1为待审核 -1为封禁"
+                },
+                "student_id": {
+                    "type": "string",
+                    "description": "学号"
+                }
+            },
+            "title": "用户资料"
+        },
+        "统一响应实体«List«帖子信息»»": {
+            "type": "object",
+            "required": [
+                "code",
+                "message"
+            ],
+            "properties": {
+                "code": {
+                    "type": "integer",
+                    "format": "int32",
+                    "description": "状态码"
+                },
+                "data": {
+                    "type": "array",
+                    "description": "数据",
+                    "items": {
+                        "$ref": "#/definitions/帖子信息"
+                    }
+                },
+                "message": {
+                    "type": "string",
+                    "description": "消息"
+                }
+            },
+            "title": "统一响应实体«List«帖子信息»»"
+        },
+        "统一响应实体«List«评论信息»»": {
+            "type": "object",
+            "required": [
+                "code",
+                "message"
+            ],
+            "properties": {
+                "code": {
+                    "type": "integer",
+                    "format": "int32",
+                    "description": "状态码"
+                },
+                "data": {
+                    "type": "array",
+                    "description": "数据",
+                    "items": {
+                        "$ref": "#/definitions/评论信息"
+                    }
+                },
+                "message": {
+                    "type": "string",
+                    "description": "消息"
+                }
+            },
+            "title": "统一响应实体«List«评论信息»»"
+        },
+        "统一响应实体«boolean»": {
+            "type": "object",
+            "required": [
+                "code",
+                "message"
+            ],
+            "properties": {
+                "code": {
+                    "type": "integer",
+                    "format": "int32",
+                    "description": "状态码"
+                },
+                "data": {
+                    "type": "boolean",
+                    "description": "数据"
+                },
+                "message": {
+                    "type": "string",
+                    "description": "消息"
+                }
+            },
+            "title": "统一响应实体«boolean»"
+        },
+        "统一响应实体«int»": {
+            "type": "object",
+            "required": [
+                "code",
+                "message"
+            ],
+            "properties": {
+                "code": {
+                    "type": "integer",
+                    "format": "int32",
+                    "description": "状态码"
+                },
+                "data": {
+                    "type": "integer",
+                    "format": "int32",
+                    "description": "数据"
+                },
+                "message": {
+                    "type": "string",
+                    "description": "消息"
+                }
+            },
+            "title": "统一响应实体«int»"
+        },
+        "统一响应实体«object»": {
+            "type": "object",
+            "required": [
+                "code",
+                "message"
+            ],
+            "properties": {
+                "code": {
+                    "type": "integer",
+                    "format": "int32",
+                    "description": "状态码"
+                },
+                "data": {
+                    "type": "object",
+                    "description": "数据"
+                },
+                "message": {
+                    "type": "string",
+                    "description": "消息"
+                }
+            },
+            "title": "统一响应实体«object»"
+        },
+        "统一响应实体«string»": {
+            "type": "object",
+            "required": [
+                "code",
+                "message"
+            ],
+            "properties": {
+                "code": {
+                    "type": "integer",
+                    "format": "int32",
+                    "description": "状态码"
+                },
+                "data": {
+                    "type": "string",
+                    "description": "数据"
+                },
+                "message": {
+                    "type": "string",
+                    "description": "消息"
+                }
+            },
+            "title": "统一响应实体«string»"
+        },
+        "统一响应实体«帖子信息»": {
+            "type": "object",
+            "required": [
+                "code",
+                "message"
+            ],
+            "properties": {
+                "code": {
+                    "type": "integer",
+                    "format": "int32",
+                    "description": "状态码"
+                },
+                "data": {
+                    "description": "数据",
+                    "$ref": "#/definitions/帖子信息"
+                },
+                "message": {
+                    "type": "string",
+                    "description": "消息"
+                }
+            },
+            "title": "统一响应实体«帖子信息»"
+        },
+        "统一响应实体«用户公开资料»": {
+            "type": "object",
+            "required": [
+                "code",
+                "message"
+            ],
+            "properties": {
+                "code": {
+                    "type": "integer",
+                    "format": "int32",
+                    "description": "状态码"
+                },
+                "data": {
+                    "description": "数据",
+                    "$ref": "#/definitions/用户公开资料"
+                },
+                "message": {
+                    "type": "string",
+                    "description": "消息"
+                }
+            },
+            "title": "统一响应实体«用户公开资料»"
+        },
+        "统一响应实体«用户资料»": {
+            "type": "object",
+            "required": [
+                "code",
+                "message"
+            ],
+            "properties": {
+                "code": {
+                    "type": "integer",
+                    "format": "int32",
+                    "description": "状态码"
+                },
+                "data": {
+                    "description": "数据",
+                    "$ref": "#/definitions/用户资料"
+                },
+                "message": {
+                    "type": "string",
+                    "description": "消息"
+                }
+            },
+            "title": "统一响应实体«用户资料»"
+        },
+        "评论信息": {
+            "type": "object",
+            "properties": {
+                "content": {
+                    "type": "string",
+                    "description": "评论内容"
+                },
+                "createTime": {
+                    "type": "string",
+                    "format": "date-time",
+                    "description": "评论创建时间"
+                },
+                "id": {
+                    "type": "integer",
+                    "format": "int32",
+                    "description": "评论id"
+                },
+                "images": {
+                    "type": "string",
+                    "description": "图片列表"
+                },
+                "status": {
+                    "type": "integer",
+                    "format": "int32",
+                    "description": "状态 0为正常 1为待审核 -1为封禁"
+                },
+                "tableId": {
+                    "type": "integer",
+                    "format": "int32",
+                    "description": "帖子id"
+                },
+                "userId": {
+                    "type": "integer",
+                    "format": "int32",
+                    "description": "评论者id"
+                },
+                "userPublic": {
+                    "description": "对应的用户公开信息",
+                    "$ref": "#/definitions/用户公开资料"
+                }
+            },
+            "title": "评论信息"
+        }
+    }
+}

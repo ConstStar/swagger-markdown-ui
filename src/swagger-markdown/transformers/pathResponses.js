@@ -7,6 +7,7 @@ const transformDataTypes = require('./dataTypes');
  * @returns {null|string}
  */
 module.exports = (responses, responsesPublic) => {
+
         const res = [];
         let schemas = false
 
@@ -25,31 +26,19 @@ module.exports = (responses, responsesPublic) => {
                         } else {
                             line.push('');
                         }
-                        // Schema
-                        if ('content' in responses[response]) {
-                            let content = responses[response].content;
-                            Object.keys(content).forEach(key => {
-                                        if ('schema' in content[key]) {
-                                            const schema = new Schema(content[key].schema);
-                                            line.push(key)
-                                            line.push(transformDataTypes(schema));
 
-                                            schemas = true
-                                        }
+                        let content = responses[response];
 
-                                        res.push(`|${line.map(el => ` ${el} `).join('|')}|`);
+                        if ('schema' in content) {
+                            const schema = new Schema(content.schema);
+                            line.push(transformDataTypes(schema));
 
-                                //以便添加下一个请求头
-                                line=[]
-                                line.push(response);
-                                line.push(description);
-                            });
+                            schemas = true
                         } else if (schemas) {
                             line.push('');
-                            res.push(`|${line.map(el => ` ${el} `).join('|')}|`);
-                        }else{
-                            res.push(`|${line.map(el => ` ${el} `).join('|')}|`);
                         }
+
+                        res.push(`|${line.map(el => ` ${el} `).join('|')}|`);
                     }
   });
 
@@ -58,8 +47,8 @@ module.exports = (responses, responsesPublic) => {
     return "无额外响应内容";
   }
 
-  res.unshift(`| ---- | ----------- |${schemas ? ' ------ |------ |' : ''}`);
-  res.unshift(`| 状态码 | 描述 |${schemas ? ' 请求头 | 返回类型 |' : ''}`);
+  res.unshift(`| ---- | ----------- |${schemas ? ' ------ |' : ''}`);
+  res.unshift(`| 状态码 | 描述 |${schemas ? ' 返回类型 |' : ''}`);
 
   return res.join('\n');
 };

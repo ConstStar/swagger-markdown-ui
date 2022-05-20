@@ -11,28 +11,47 @@
       >
       - swagger-v3 yaml 转化为 markdown.
     </p>
-    <div style="display: flex;justify-content: center;">
-      <div style=" width: 50%;margin: 10px">
+    <div style="display: flex; justify-content: center">
+      <div style="width: 50%; margin: 10px">
         <div class="a">
           <h3>接口链接:</h3>
-          <input style="width: 70%;height: 2rem;border: 1px solid #999; border-radius: 5px" type="text" v-model="inputURL" />
-          <button v-on:click="handleSubmitURL" style="height: 2rem;border: 1px solid #999; border-radius: 5px; margin-left: 10px">转化！</button>
+          <input
+            style="
+              width: 70%;
+              height: 2rem;
+              border: 1px solid #999;
+              border-radius: 5px;
+            "
+            type="text"
+            v-model="inputURL"
+          />
+          <button
+            v-on:click="handleSubmitURL"
+            style="
+              height: 2rem;
+              border: 1px solid #999;
+              border-radius: 5px;
+              margin-left: 10px;
+            "
+          >
+            转化！
+          </button>
         </div>
-        <h1 style="color: red;text-align: center">或者</h1>
+        <h1 style="color: red; text-align: center">或者</h1>
         <div class="b">
           <h3>这里输入Swagger Yaml:</h3>
           <textarea id="yaml" rows="16" v-model="inputYaml"> </textarea>
           <button v-on:click="handleSubmit" class="Conversion">转化！</button>
         </div>
       </div>
-      <div style=" width: 50%;margin: 10px">
+      <div style="width: 50%; margin: 10px">
         <h3>这里输出markdown:</h3>
         <textarea
           id="markdown"
           rows="16"
           v-model="outputMarkdown"
           readonly
-          style="height: 400px;"
+          style="height: 400px"
         >
         </textarea>
       </div>
@@ -41,6 +60,7 @@
 </template>
 
 <script>
+import $ from 'jquery' 
 const yaml = require("js-yaml");
 const transformInfo = require("../swagger-markdown/transformers/info");
 const transformPaths = require("../swagger-markdown/transformers/paths");
@@ -58,18 +78,19 @@ export default {
   },
   methods: {
     handleSubmitURL: function () {
-      var requestOptions = {
-        method: "GET",
-        redirect: "follow",
-      };
-
-      fetch(this.inputURL, requestOptions)
-        .then((response) => response.text())
-        .then((result) => {
-          this.inputYaml = result;
-          this.handleSubmit();
-        })
-        .catch((error) => (this.outputMarkdown = error));
+       $.ajax({
+          async : true,
+          url : this.inputURL,
+          type : "GET",
+          dataType : "jsonp", // 返回的数据类型，设置为JSONP方式
+          success: function(response){
+            this.inputYaml = response;
+            this.handleSubmit();
+          },
+          error:function(e){
+            this.outputMarkdown = e
+          }
+      });
     },
     handleSubmit: function () {
       try {
@@ -96,8 +117,8 @@ export default {
         }
         // Models (definitions)
 
-        if ("components" in inputDoc) {
-          document.push(transformComponents(inputDoc.components));
+        if ("definitions" in inputDoc) {
+          document.push(transformComponents(inputDoc.definitions));
         }
 
         this.outputMarkdown = document.join("\n");
@@ -125,13 +146,13 @@ li {
 a {
   color: #42b983;
 }
-.Conversion{
+.Conversion {
   width: 200px;
   height: 50px;
   border: 1px solid #999;
   border-radius: 20px;
 }
-textarea{
+textarea {
   resize: none;
   width: 80%;
   height: 200px;
