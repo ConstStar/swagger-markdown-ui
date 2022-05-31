@@ -4,7 +4,7 @@
 
 ## 简介
 
-将Swagger V3 文档转换为离线的 Markdown 格式的文档
+将Swagger V2 文档转换为离线的 Markdown 格式的文档
 
 
 

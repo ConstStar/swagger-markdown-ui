@@ -9,7 +9,7 @@
         rel="noopener"
         >强化版 swagger-markdown-ui</a
       >
-      - swagger-v3 yaml 转化为 markdown.
+      - swagger-v2 yaml 转化为 markdown.
     </p>
     <div style="display: flex; justify-content: center">
       <div style="width: 50%; margin: 10px">
@@ -71,7 +71,7 @@ export default {
   name: "HelloWorld",
   data: function () {
     return {
-      inputURL: "http://localhost:8080/v3/api-docs",
+      inputURL: "http://localhost:8080/v2/api-docs",
       inputYaml: "",
       outputMarkdown: "",
     };
